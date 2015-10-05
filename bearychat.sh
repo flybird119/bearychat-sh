@@ -5,7 +5,7 @@
 # ----------
 webhook_url=""       # Incoming Webhooks integration URL
 upload_token=""      # The user's API authentication token, only used for file uploads
-channel="general"    # Default channel to post messages. '#' is prepended, if it doesn't start with '#' or '@'.
+channel="#"          # Default channel to post messages. '#' is prepended, if it doesn't start with '#' or '@'.
 tmp_dir="/tmp"       # Temporary file is created in this directory.
 username="bearychat" # Default username to post messages.
 icon="ghost"         # Default emoji to post messages. Don't wrap it with ':'. See http://www.emoji-cheat-sheet.com.
