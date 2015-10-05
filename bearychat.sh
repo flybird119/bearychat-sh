@@ -59,7 +59,7 @@ function show_help(){
     echo "                                      See https://api.slack.com/docs/attachments for more details."
     echo "    -e, --field title value           Add a field to the attachment. You can specify this multiple times"
     echo "    -s, --short-field title value     Add a short field to the attachment. You can specify this multiple times"
-    echo "    --setup                           Setup slacktee interactively."
+    echo "    --setup                           Setup bearychat interactively."
 }
 
 function send_message(){
@@ -124,10 +124,10 @@ function setup(){
       exit 1
     fi
 
-    local_conf="$HOME/.slacktee"
+    local_conf="$HOME/.bearychat"
 
     if [[ -e "$local_conf" ]]; then
-      echo ".slacktee is found in your home directory."
+      echo ".bearychat is found in your home directory."
       read -p "Are you sure to overwrite it? [y/n] :" choice
       case "$choice" in
 	  y|Y ) ;;
@@ -138,33 +138,33 @@ function setup(){
     # Start setup
     read -p "Incoming Webhook URL [$webhook_url]: " input_webhook_url
     if [[ -z "$input_webhook_url" ]]; then
-	input_webhook_url=$webhook_url
+	     input_webhook_url=$webhook_url
     fi
     read -p "Upload Token [$upload_token]: " input_upload_token
     if [[ -z "$input_upload_token" ]]; then
-	input_upload_token=$upload_token
+	     input_upload_token=$upload_token
     fi
     read -p "Temporary Directory [$tmp_dir]: " input_tmp_dir
     if [[ -z "$input_tmp_dir" ]]; then
-	input_tmp_dir=$tmp_dir
+	     input_tmp_dir=$tmp_dir
     fi
     read -p "Default Channel [$channel]: " input_channel
     if [[ -z "$input_channel" ]]; then
-	input_channel=$channel
+	     input_channel=$channel
     fi
     read -p "Default Username [$username]: " input_username
     if [[ -z "$input_username" ]]; then
-	input_username=$username
+	     input_username=$username
     fi
     read -p "Default Icon: [$icon]: " input_icon
     if [[ -z "$input_icon" ]]; then
-	input_icon=$icon
+	     input_icon=$icon
     fi
     read -p "Default color of the attachment. (empty string disables attachment) [$attachment]: " input_attachment
     if [[ -z "$input_attachment" ]]; then
-	input_attachment=$attachment
+	     input_attachment=$attachment
     elif [[ $input_attachment == "\"\"" || $input_attachment == "''" ]]; then
-	input_attachment=""
+	     input_attachment=""
     fi
 
     echo "webhook_url=\"$input_webhook_url\"" > "$local_conf"
