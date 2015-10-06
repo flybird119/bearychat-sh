@@ -3,9 +3,9 @@
 # Test settings
 BEARYCHAT="./bearychat.sh"
 DATA="./test_data.txt"
-CHANNEL="sandbox"
+CHANNEL="#"
 
-echo "This test posts many messages to your Slack channel?"
+echo "This test posts many messages to your BearyChat channel?"
 read -p "Are you sure to execute this test? [y/n] :" choice
 case "$choice" in
     y|Y ) ;;
@@ -16,32 +16,32 @@ esac
 echo "-- Setup mode --"
 $BEARYCHAT '--setup'
 
-# # Test 2: Buffering
-# echo "-- Buffering (default) --"
-# cat $DATA | $BEARYCHAT
-#
-# # Test 3: No-buffering
-# echo "-- Non buffering (-n/--no-buffering) --"
-# cat $DATA | $BEARYCHAT '-n'
-# echo "-- Non buffering (--no-buffering) --"
-# cat $DATA | $BEARYCHAT '--no-buffering'
-#
+# Test 2: Buffering
+echo "-- Buffering (default) --"
+cat $DATA | $BEARYCHAT
+
+# Test 3: No-buffering
+echo "-- Non buffering (-n/--no-buffering) --"
+cat $DATA | $BEARYCHAT '-n'
+echo "-- Non buffering (--no-buffering) --"
+cat $DATA | $BEARYCHAT '--no-buffering'
+
 # # Test 4: File upload
 # echo "-- File upload (-f) --"
 # cat $DATA | $BEARYCHAT '-f'
 # echo "-- File upload (--file) --"
 # cat $DATA | $BEARYCHAT '--file'
-#
-# # Test 5: Title
-# echo "-- Title (-t) --"
-# cat $DATA | $BEARYCHAT '-t' 'TitleTest'
-# echo "-- Title (--title) --"
-# cat $DATA | $BEARYCHAT '--title' 'TitleTest'
-# echo "-- Title with non buffering (-t and -n)"
-# cat $DATA | $BEARYCHAT '-t' 'TitleTest - Non Buffering' '-n'
+
+Test 5: Title
+echo "-- Title (-t) --"
+cat $DATA | $BEARYCHAT '-t' 'TitleTest' '-a' '#ffa500'
+echo "-- Title (--title) --"
+cat $DATA | $BEARYCHAT '--title' 'TitleTest' '-a' '#36a64f'
+echo "-- Title with non buffering (-t and -n)"
+cat $DATA | $BEARYCHAT '-t' 'TitleTest - Non Buffering' '-n' '-a' '#FF0099'
 # echo "-- Title with file (-t and -f)"
 # cat $DATA | $BEARYCHAT '-t' 'TitleTest - File' '-f'
-#
+
 # # Test 6: Link
 # echo "-- Link (-l) --"
 # echo "Link (-l): Link should be used as a title" | $BEARYCHAT '-l' 'https://www.google.com/'
@@ -79,21 +79,21 @@ $BEARYCHAT '--setup'
 # echo "Message formatting: Full \@channel, \#$CHANNEL, https://www.google.com/" | $BEARYCHAT '-m' 'full'
 # echo "-- Message formatting (-m) with none --"
 # echo "Message formatting: None \@channel, \#CHANNEL, https://www.google.com/" | $BEARYCHAT '-m' 'none'
-#
-# # Test 11: Plain text
-# echo "-- Plain text (-p) --"
-# echo "Plain text (-p)" | $BEARYCHAT '-p'
-# echo "-- Plain text (--plain-text) --"
-# echo "Plain text (--plain-text)" | $BEARYCHAT '--plain-text'
-#
-# # Test 12: Attachment
-# echo "-- Attachment (-a) with no color --"
-# echo "Attachment: No color specified" | $BEARYCHAT '-a'
+
+# Test 11: Plain text
+echo "-- Plain text (-p) --"
+echo "Plain text (-p)" | $BEARYCHAT '-p'
+echo "-- Plain text (--plain-text) --"
+echo "Plain text (--plain-text)" | $BEARYCHAT '--plain-text'
+
+# Test 12: Attachment
+echo "-- Attachment (-a) with no color --"
+echo "Attachment: No color specified" | $BEARYCHAT '-a'
 # echo "-- Attachment (--attachment) with 'good' --"
 # echo "Attachment: Good" | $BEARYCHAT '-a' 'good'
-# echo "-- Attachment (--attachment) with color code --"
-# echo "Attachment: \#FF0099" | $BEARYCHAT '-a' '#FF0099'
-#
+echo "-- Attachment (--attachment) with color code --"
+echo "Attachment: \#FF0099" | $BEARYCHAT '-a' '#439FE0'
+
 # # Test 13: Attachment with fields
 # echo "-- Attachment (-a) with long fiels (-e/--field) --"
 # echo "Attachment: Two fields" | $BEARYCHAT '-a' '-e' 'Field 1 (-e)' 'Field 1 Value' '--field' 'Field 2 (--field)' 'Field 2 Value'
@@ -103,4 +103,4 @@ $BEARYCHAT '--setup'
 # echo "Attachment: Long and short fields" | $BEARYCHAT '-a' '-e' 'Long Field (-e)' 'Long field Value' '-s' 'Short field 1 (-s)' 'Short field 1 Value' '-s' 'Short field 2 (-s)' 'Short field 2 Value'
 # echo "Attachment with file" | $BEARYCHAT '-a' '-f' '-e' 'Long Field (-e)' 'Long field Value' '-s' 'Short field 1 (-s)' 'Short field 1 Value' '-s' 'Short field 2 (-s)' 'Short field 2 Value'
 #
-# echo "Test is done!"
+echo "Test is done!"

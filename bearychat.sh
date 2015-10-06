@@ -104,18 +104,18 @@ function send_message(){
 }
 
 function process_line(){
-    if [[ $mode == "no-buffering" ]]; then
-	prefix=''
+  if [[ $mode == "no-buffering" ]]; then
+    prefix=''
 	if [[ -z $attachment ]]; then
-	    prefix=$title
+	  prefix=$title
 	fi
 	send_message "$prefix$1"
-    elif [[ $mode == "file" ]]; then
-	echo "$1" >> "$filename"
-    else
-	text="$text$1\n"
-    fi
-    echo "$line"
+  elif [[ $mode == "file" ]]; then
+    echo "$1" >> "$filename"
+  else
+	  text="$text$1\n"
+  fi
+  echo "$line"
 }
 
 function setup(){
@@ -307,20 +307,20 @@ done
 # ----------
 
 if [[ $webhook_url == "" ]]; then
-    echo "Please setup the webhook url of this incoming webhook integration."
-    exit 1
+  echo "Please setup the webhook url of this incoming webhook integration."
+  exit 1
 fi
 
 if [[ $upload_token == "" && $mode == "file" ]]; then
-    echo "Please provide the authentication token for file uploads."
-    exit 1
+  echo "Please provide the authentication token for file uploads."
+  exit 1
 fi
 
 if [[ $channel == "" ]]; then
-    echo "Please specify a channel."
-    exit 1
+  echo "Please specify a channel."
+  exit 1
 elif [[ ( "$channel" != "#"* ) && ( "$channel" != "@"* ) ]]; then
-    channel="#$channel"
+  channel="#$channel"
 fi
 
 # ----------
@@ -329,36 +329,37 @@ fi
 
 text=""
 if [[ -n $title || -n $link ]]; then
-    # Use link as title, if title is not specified
-    if [[ -z $title ]]; then
-	title="$link"
-    fi
+  # Use link as title, if title is not specified
+  if [[ -z $title ]]; then
+    title="$link"
+  fi
 
-    # Add title to filename in the file mode
-    if [[ $mode == "file" ]]; then
-        filetitle=$(echo "$title"|sed 's/[ /:.]//g')
-        filetitle="$filetitle-"
-    fi
+  # Add title to filename in the file mode
+  if [[ $mode == "file" ]]; then
+    filetitle=$(echo "$title"|sed 's/[ /:.]//g')
+    filetitle="$filetitle-"
+  fi
 
-    if [[ -z $attachment ]]; then
-	if [[ $mode == "no-buffering" ]]; then
-            if [[ -n $link ]]; then
-		title="<$link|$title>: "
-            else
-		title="$title: "
-            fi
-	elif [[ $mode == "file" ]]; then
-            if [[ -n $link ]]; then
-		title="<$link|$title>"
-            fi
-	else
-            if [[ -n $link ]]; then
-		text="-- <$link|$title> --\n"
-            else
-		text="-- $title --\n"
-            fi
-	fi
-    fi
+  # no attachment mode
+  if [[ -z $attachment ]]; then
+  	if [[ $mode == "no-buffering" ]]; then
+      if [[ -n $link ]]; then
+        title="<$link|$title>: "
+      else
+        title="$title: "
+      fi
+	  elif [[ $mode == "file" ]]; then
+      if [[ -n $link ]]; then
+        title="<$link|$title>"
+      fi
+	  else
+      if [[ -n $link ]]; then
+        text="-- <$link|$title> --\n"
+      else
+        text="-- $title --\n"
+      fi
+	  fi
+  fi
 fi
 
 timestamp=$(date +'%m%d%Y-%H%M%S')
@@ -372,19 +373,19 @@ if [[ -n $line ]]; then
 fi
 
 if [[ $mode == "buffering" ]]; then
-    send_message "$text"
+  send_message "$text"
 elif [[ $mode == "file" ]]; then
-    result=$(curl -F file=@"$filename" -F token="$upload_token" https://slack.com/api/files.upload 2> /dev/null)
-    access_url=$(echo "$result" | awk 'match($0, /url":"([^"]*)"/) {print substr($0, RSTART+6, RLENGTH-7)}'|sed 's/\\//g')
-    download_url=$(echo "$result" | awk 'match($0, /url_download":"([^"]*)"/) {print substr($0, RSTART+15, RLENGTH-16)}'|sed 's/\\//g')
-    if [[ -n $attachment ]]; then
-	text="Input file has been uploaded"
-    else
-	if [[ $title != '' ]]; then
-	    title=" of $title"
-	fi
-	text="Input file$title has been uploaded.\n$access_url\n\nYou can download it from the link below.\n$download_url"
-    fi
-    send_message "$text"
-    rm "$filename"
+  result=$(curl -F file=@"$filename" -F token="$upload_token" https://slack.com/api/files.upload 2> /dev/null)
+  access_url=$(echo "$result" | awk 'match($0, /url":"([^"]*)"/) {print substr($0, RSTART+6, RLENGTH-7)}'|sed 's/\\//g')
+  download_url=$(echo "$result" | awk 'match($0, /url_download":"([^"]*)"/) {print substr($0, RSTART+15, RLENGTH-16)}'|sed 's/\\//g')
+  if [[ -n $attachment ]]; then
+    text="Input file has been uploaded"
+  else
+	  if [[ $title != '' ]]; then
+      title=" of $title"
+	  fi
+	  text="Input file$title has been uploaded.\n$access_url\n\nYou can download it from the link below.\n$download_url"
+  fi
+  send_message "$text"
+  rm "$filename"
 fi
