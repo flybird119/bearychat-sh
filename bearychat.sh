@@ -18,7 +18,9 @@ me=$(basename "$0")
 title=""
 mode="buffering"
 link=""
-textWrapper="\`\`\`"
+#bearychat对```支持差到极致，所以先注释了
+#textWrapper="\`\`\`"
+textWrapper=""
 parseMode=""
 fields=()
 
